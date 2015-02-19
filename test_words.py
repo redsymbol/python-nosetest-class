@@ -21,6 +21,7 @@ def test_wordcounts():
     assert_dict_equal({'truth': 2, 'is': 1, 'beauty': 2},
             wordcounts("Truth is beauty; beauty ... truth."))
 
+# The nose way of checking that a function raises and exception.
 @raises(ValueError)
 def test_addcounts_badarg_existing():
     addcounts(None, {})
@@ -33,6 +34,9 @@ def test_addcounts_badarg_new():
 def test_addcounts_badargs():
     addcounts(None, None)
 
+# For setup fixtures, we sometimes need to use unittest.TestCase.
+# nose's @with_setup doesn't let us do the following.
+# However, nose can find and run these tests just fine.
 class TestWords_addcounts(unittest.TestCase):
     def setUp(self):
         self.existing = {'truth': 2, 'is': 1, 'beauty': 2}
@@ -50,3 +54,13 @@ class TestWords_addcounts(unittest.TestCase):
         addcounts(self.existing, {'love': 1})
         self.assertEqual({'truth': 2, 'is': 1, 'beauty': 2, 'love': 1}, self.existing)
 
+    def test_addcounts_errors(self):
+        '''
+        Alternate way to check that ValueError is raised.
+        '''
+        with self.assertRaises(ValueError):
+            addcounts(None, {})
+        with self.assertRaises(ValueError):
+            addcounts({}, None)
+        with self.assertRaises(ValueError):
+            addcounts(None, None)

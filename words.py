@@ -1,5 +1,4 @@
 from collections import defaultdict
-import types
 _punct = '.,;?:'
 def _normalize(fragment):
     fragment = fragment.lower()
